@@ -60,7 +60,7 @@ def modifier_tache(tache_id: int, tache_update: schemas.TacheCreate, db: Session
 
     tache.titre = tache_update.titre
     db.commit()
-    db.refresh(tache)
+    db.refresh(tache)'e
     print("Tâche modifiée :", tache.titre)
     return tache
 
@@ -75,3 +75,13 @@ def supprimer_tache(tache_id: int, db: Session = Depends(get_db)):
     db.commit()
     print("Tâche supprimée :", tache_id)
     return None 
+@app.get("/")
+def accueil():
+    return {"message": "Bienvenue sur l'API To-Do"}
+
+@app.get("/health")
+def health():
+    return {
+        "status": "OK",
+        "message": "API opérationnelle"
+    }
