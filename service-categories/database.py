@@ -6,7 +6,7 @@ import os
 # Charger les variables d'environnement
 load_dotenv()
 
-# Récupérer l'adresse de la base de données
+# Récupérer l'adresse de la base de données (propre à CE service)
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 # Connexion à SQLite

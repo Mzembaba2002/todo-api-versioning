@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  service-categories:
+    build: ./service-categories
+    ports:
+      - "8001:8001"
+    environment:
+      - DATABASE_URL=sqlite:///./categories.db
+      - PORT=8001
+
+  service-taches:
+    build: ./service-taches
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:///./taches.db
+      - PORT=8000
+      - CATEGORIES_SERVICE_URL=http://service-categories:8001
+      - CATEGORIES_TIMEOUT=2
+      - CATEGORIES_MAX_RETRIES=1
+    depends_on:
+      - service-categories

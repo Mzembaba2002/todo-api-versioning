@@ -9,7 +9,6 @@ __pycache__/
 .env
 
 # Base de données SQLite
-todo.db
-
+*.db
 # VS Code
 .vscode/
