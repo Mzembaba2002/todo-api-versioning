@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: service-categories
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: service-categories
+
+  template:
+    metadata:
+      labels:
+        app: service-categories
+
+    spec:
+      containers:
+        - name: service-categories
+          image: service-categories:1.0.0
+          imagePullPolicy: Never
+
+          ports:
+            - containerPort: 8001
+
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-config
+                  key: CATEGORIES_DATABASE_URL
+
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-config
+                  key: CATEGORIES_PORT
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8001
+            initialDelaySeconds: 5
+            periodSeconds: 10
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8001
+            initialDelaySeconds: 15
+            periodSeconds: 20

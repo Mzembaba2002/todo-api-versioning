@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: todo-config
+
+data:
+  CATEGORIES_DATABASE_URL: "sqlite:///./categories.db"
+  CATEGORIES_PORT: "8001"
+
+  TACHES_DATABASE_URL: "sqlite:///./taches.db"
+  TACHES_PORT: "8000"
+
+  CATEGORIES_SERVICE_URL: "http://service-categories:8001"
+  CATEGORIES_TIMEOUT: "2"
+  CATEGORIES_MAX_RETRIES: "1"

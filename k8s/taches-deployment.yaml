@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: service-taches
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: service-taches
+
+  template:
+    metadata:
+      labels:
+        app: service-taches
+
+    spec:
+      containers:
+        - name: service-taches
+          image: service-taches:1.0.0
+          imagePullPolicy: Never
+
+          ports:
+            - containerPort: 8000
+
+          env:
+            - name: DATABASE_URL
+              value: "sqlite:////data/taches.db"
+
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-config
+                  key: TACHES_PORT
+
+            - name: CATEGORIES_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-config
+                  key: CATEGORIES_SERVICE_URL
+
+            - name: CATEGORIES_TIMEOUT
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-config
+                  key: CATEGORIES_TIMEOUT
+
+            - name: CATEGORIES_MAX_RETRIES
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-config
+                  key: CATEGORIES_MAX_RETRIES
+
+            - name: APP_ENV
+              valueFrom:
+                secretKeyRef:
+                  name: todo-secret
+                  key: APP_ENV
+
+            - name: APP_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: todo-secret
+                  key: APP_SECRET
+
+          volumeMounts:
+            - name: todo-storage
+              mountPath: /data
+
+      volumes:
+        - name: todo-storage
+          persistentVolumeClaim:
+            claimName: todo-pvc

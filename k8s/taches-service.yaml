@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: service-taches
+
+spec:
+  type: ClusterIP
+
+  selector:
+    app: service-taches
+
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000

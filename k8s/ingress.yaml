@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: todo-ingress
+
+spec:
+  ingressClassName: nginx
+
+  rules:
+    - host: todo.local
+      http:
+        paths:
+          - path: /categories
+            pathType: Prefix
+            backend:
+              service:
+                name: service-categories
+                port:
+                  number: 8001
+
+          - path: /taches
+            pathType: Prefix
+            backend:
+              service:
+                name: service-taches
+                port:
+                  number: 8000
